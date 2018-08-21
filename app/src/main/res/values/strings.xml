@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">InventoryApp</string>
+    <string name="book_count">The books table contains %d books.\n</string>
+</resources>
