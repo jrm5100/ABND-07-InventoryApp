@@ -31,4 +31,8 @@
     <string name="editor_delete_book_failed">Failure: unable to delete book listing</string>
     <string name="editor_delete_book_successful">Success: deleted book listing</string>
 
+    <!-- Titles -->
+    <string name="title_add_new">New Book Listing</string>
+    <string name="title_edit">Edit Book Listing</string>
+
 </resources>

@@ -1,6 +1,5 @@
 package com.example.android.inventoryapp;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;

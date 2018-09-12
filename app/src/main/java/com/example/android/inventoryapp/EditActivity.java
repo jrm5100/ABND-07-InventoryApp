@@ -1,28 +1,14 @@
 package com.example.android.inventoryapp;
 
-import android.app.AlertDialog;
 import android.app.LoaderManager;
-import android.content.ContentValues;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
@@ -46,6 +32,7 @@ public class EditActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        setTitle(getString(R.string.title_edit));
 
         // Initialize the data loader
         getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
