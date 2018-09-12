@@ -1,12 +1,7 @@
 <resources>
     <string name="app_name">InventoryApp</string>
-    <string name="book_count">The books table contains %d books.\n</string>
-    <!-- Title text for the empty view, which describes the empty book shelf image [CHAR LIMIT=50] -->
-    <string name="empty_view_title_text">Can\'t you check in the back for more inventory?</string>
 
     <!-- Subtitle text for the empty view that prompts the user to add a book [CHAR LIMIT=50] -->
-    <string name="empty_view_subtitle_text">Get started by adding a book</string>
-    <string name="overview">Overview</string>
     <string name="hint_edit_book_name">Book Name</string>
     <string name="hint_edit_price">Book Price (USD)</string>
     <string name="hint_edit_quantity">Quantity</string>
@@ -16,6 +11,24 @@
     <string name="editor_update_quantity_passed">Updated the quantity.</string>
 
     <!-- Main View -->
+    <string name="empty_view_title_text">Can\'t you check in the back for more inventory?</string>
+    <string name="empty_view_subtitle_text">Get started by adding a book listing</string>
+
     <string name="price_formatter">$%1$d</string>
     <string name="quantity_formatter">%1$d in stock</string>
+
+    <!-- Detail View -->
+    <string name="delete_dialog_text">Are you sure you want to delete this book listing?</string>
+
+    <!-- Miscelaneous UI Text -->
+    <string name="overview">Overview</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="sale">Sale</string>
+
+    <!-- Messages to the user -->
+    <string name="editor_delete_book_failed">Failure: unable to delete book listing</string>
+    <string name="editor_delete_book_successful">Success: deleted book listing</string>
+
 </resources>
