@@ -1,83 +1,86 @@
 package com.example.android.inventoryapp;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.BookContract;
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
-/**
- * {@link BookCursorAdapter} is an adapter for a list or grid view
- * that uses a {@link Cursor} of book data as its data source. This adapter knows
- * how to create list items for each row of data in the {@link Cursor}.
- */
+
 public class BookCursorAdapter extends CursorAdapter {
 
-    /**
-     * Constructs a new {@link BookCursorAdapter}.
-     *
-     * @param context The context
-     * @param c       The cursor from which to get the data.
-     */
     public BookCursorAdapter(Context context, Cursor c) {
         super(context, c, 0 /* flags */);
     }
 
-    /**
-     * Makes a new blank list item view. No data is set (or bound) to the views yet.
-     *
-     * @param context app context
-     * @param cursor  The cursor from which to get the data. The cursor is already
-     *                moved to the correct position.
-     * @param parent  The parent to which the new view is attached to
-     * @return the newly created list item view.
-     */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-    // Inflate a list item view using the layout specified in list_item.xml
+         // Inflate a list item view using the layout specified in list_item.xml
         return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
     }
 
-    /**
-     * This method binds the book data (in the current row pointed to by cursor) to the given
-     * list item layout. For example, the name for the current book can be set on the name TextView
-     * in the list item layout.
-     *
-     * @param view    Existing view, returned earlier by newView() method
-     * @param context app context
-     * @param cursor  The cursor from which to get the data. The cursor is already moved to the
-     *                correct row.
-     */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, Context context, final Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
         TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
 
         // Find the columns of attributes that we're interested in
+        int _idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
         int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_NAME);
         int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_PRICE);
-        int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
+        final int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
 
         // Read the attributes from the Cursor for the current book
+        int _id = cursor.getInt(_idColumnIndex);
         String bookName = cursor.getString(nameColumnIndex);
         int price = cursor.getInt(priceColumnIndex);
         int quantity = cursor.getInt(quantityColumnIndex);
+
+        // Make Uri
+        Uri currentBookUri= ContentUris.withAppendedId(BookEntry.CONTENT_URI, _id);
 
         // Update the TextViews with the attributes
         nameTextView.setText(bookName);
         priceTextView.setText(context.getString(R.string.price_formatter, price));
         quantityTextView.setText(context.getString(R.string.quantity_formatter, quantity));
 
-        // Add the onClick for the Sale Button
-        // TODO: Implement an Onclick
+        // Set onClickListener for the sale button
+        Button saleButton = view.findViewById(R.id.sale_button);
+        setupDecreaseQuantButton(saleButton, quantity, currentBookUri, context);
+    }
+
+
+    private void setupDecreaseQuantButton(final Button btn, final Integer quantity, final Uri currentBookUri, final Context context) {
+        if (quantity >= 1) {
+            btn.setEnabled(true);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (quantity >= 1) {
+                        ContentValues values = new ContentValues();
+                        values.put(BookEntry.COLUMN_BOOK_QUANTITY, quantity - 1);
+                        int rowsAffected = context.getContentResolver().update(currentBookUri, values, null, null);
+                    }
+                }
+            });
+        } else {
+            btn.setEnabled(false);
+            btn.setOnClickListener(null);
+        }
     }
 }

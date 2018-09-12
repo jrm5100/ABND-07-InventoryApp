@@ -164,7 +164,7 @@ public class DetailActivity extends AppCompatActivity implements
 
         // Show a toast message depending on whether or not the update was successful.
         if (rowsAffected == 0) {
-            // If no rows were affected, then         android:onClick="decreaseQuantity"there was an error with the update.
+            // If no rows were affected, then there was an error with the update.
             Toast.makeText(this, getString(R.string.editor_update_quantity_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
