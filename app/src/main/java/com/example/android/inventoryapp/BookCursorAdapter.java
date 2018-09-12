@@ -1,14 +1,17 @@
 package com.example.android.inventoryapp;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.BookContract;
+import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
 /**
  * {@link BookCursorAdapter} is an adapter for a list or grid view
@@ -56,15 +59,25 @@ public class BookCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
+        TextView priceTextView = (TextView) view.findViewById(R.id.price);
+        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+
         // Find the columns of attributes that we're interested in
-        int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
-        int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
+        int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_NAME);
+        int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_PRICE);
+        int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
+
         // Read the attributes from the Cursor for the current book
         String bookName = cursor.getString(nameColumnIndex);
-        String price = cursor.getString(priceColumnIndex);
+        int price = cursor.getInt(priceColumnIndex);
+        int quantity = cursor.getInt(quantityColumnIndex);
+
         // Update the TextViews with the attributes
         nameTextView.setText(bookName);
-        summaryTextView.setText(price);
+        priceTextView.setText(context.getString(R.string.price_formatter, price));
+        quantityTextView.setText(context.getString(R.string.quantity_formatter, quantity));
+
+        // Add the onClick for the Sale Button
+        // TODO: Implement an Onclick
     }
 }

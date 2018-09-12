@@ -14,4 +14,8 @@
     <string name="hint_edit_supplier_phone">Supplier Phone Number</string>
     <string name="editor_update_quantity_failed">Failed to update the quantity.</string>
     <string name="editor_update_quantity_passed">Updated the quantity.</string>
+
+    <!-- Main View -->
+    <string name="price_formatter">$%1$d</string>
+    <string name="quantity_formatter">%1$d in stock</string>
 </resources>

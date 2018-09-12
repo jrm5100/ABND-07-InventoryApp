@@ -19,7 +19,6 @@ public class BookProvider extends ContentProvider {
     /** Tag for the log messages */
     public static final String LOG_TAG = BookProvider.class.getSimpleName();
 
-
     /** URI matcher code for the content URI for the books table */
     private static final int BOOKS = 100;
 
@@ -185,6 +184,9 @@ public class BookProvider extends ContentProvider {
      * Return the number of rows that were successfully updated.
      */
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        Log.v(LOG_TAG, "Updating book");
+        Log.v(LOG_TAG, uri.toString());
+
         // If a name is provided, it must not be null
         if (values.containsKey(BookEntry.COLUMN_BOOK_NAME)) {
             String name = values.getAsString(BookEntry.COLUMN_BOOK_NAME);
@@ -236,6 +238,8 @@ public class BookProvider extends ContentProvider {
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
+        Log.v(LOG_TAG, "Rows updated");
+        Log.v(LOG_TAG, String.valueOf(rowsUpdated));
         // If 1 or more rows were updated, notify all listeners
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);

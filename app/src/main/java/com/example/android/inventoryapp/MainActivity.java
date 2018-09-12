@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        deleteAllBooks();
-        insertData("Book One", 20, 5, "Books R Us", "1-800-867-5309");
-        insertData("Book Two", 20, 12, "Books R Us", "1-800-867-5309");
-        insertData("Advanced Java", 70, 1, "Learn 2 Program", "1-800-309-8675");
+        //deleteAllBooks();
+        //insertData("Book One", 20, 5, "Books R Us", "1-800-867-5309");
+        //insertData("Book Two", 20, 12, "Books R Us", "1-800-867-5309");
+        //insertData("Advanced Java", 70, 1, "Learn 2 Program", "1-800-309-8675");
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -94,9 +94,7 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
                 BookEntry._ID,
                 BookEntry.COLUMN_BOOK_NAME,
                 BookEntry.COLUMN_BOOK_PRICE,
-                BookEntry.COLUMN_BOOK_QUANTITY,
-                BookEntry.COLUMN_BOOK_SUPPLIERNAME,
-                BookEntry.COLUMN_BOOK_SUPPLIERPHONE};
+                BookEntry.COLUMN_BOOK_QUANTITY};
 
         // Loader that executes the query on a background thread
         return new CursorLoader(this,

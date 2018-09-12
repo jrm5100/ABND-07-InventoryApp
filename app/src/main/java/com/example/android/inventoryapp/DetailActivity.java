@@ -30,6 +30,9 @@ public class DetailActivity extends AppCompatActivity implements
     /** Identifier for the data loader */
     private static final int EXISTING_BOOK_LOADER = 0;
 
+    /** Content URI for the existing book (null if it's a new one) */
+    private Uri mCurrentBookUri;
+
     /** Text views that get data added */
     TextView mNameText;
     TextView mPriceText;
@@ -44,13 +47,16 @@ public class DetailActivity extends AppCompatActivity implements
     String supplierName;
     String supplierPhone;
 
-    /** Content URI for the existing book (null if it's a new one) */
-    private Uri mCurrentBookUri;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        // Get the Uri that was passed in
+        Intent intent = getIntent();
+        mCurrentBookUri = intent.getData();
+
+        Log.v("DetailActivity.onCreate", mCurrentBookUri.toString());
 
         // Initialize the data loader
         getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
@@ -58,10 +64,6 @@ public class DetailActivity extends AppCompatActivity implements
 
 
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        // Get the Uri that was passed in
-        Intent intent = getIntent();
-        mCurrentBookUri = intent.getData();
-
         // Define a projection that contains all columns from the table
         String[] projection = {
                 BookEntry._ID,
@@ -115,8 +117,8 @@ public class DetailActivity extends AppCompatActivity implements
 
             // Update the views with the values from the database
             mNameText.setText(name);
-            mPriceText.setText(Integer.toString(price));
-            mQuantityText.setText(Integer.toString(quantity));
+            mPriceText.setText(getString(R.string.price_formatter, price));
+            mQuantityText.setText(getString(R.string.quantity_formatter, quantity));
             mSupplierNameText.setText(supplierName);
 
             // Set an intent on the phone button
@@ -162,7 +164,7 @@ public class DetailActivity extends AppCompatActivity implements
 
         // Show a toast message depending on whether or not the update was successful.
         if (rowsAffected == 0) {
-            // If no rows were affected, then there was an error with the update.
+            // If no rows were affected, then         android:onClick="decreaseQuantity"there was an error with the update.
             Toast.makeText(this, getString(R.string.editor_update_quantity_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
@@ -173,6 +175,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     public void decreaseQuantity(View view) {
+        // TODO: Make this work in the db
         if (quantity > 1) {
             quantity -= 1;
             updateQuantity(view);
@@ -186,6 +189,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     public void increaseQuantity(View view) {
+        // TODO: Make this work in the db
         quantity += 1;
         updateQuantity(view);
     }
