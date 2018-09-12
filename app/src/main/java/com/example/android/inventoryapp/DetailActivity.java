@@ -210,9 +210,9 @@ public class DetailActivity extends AppCompatActivity implements
     private void deleteBookListing() {
         // Only perform the delete if this is an existing book listing.
         if (mCurrentBookUri != null) {
-            // Call the ContentResolver to delete the pet at the given content URI.
-            // Pass in null for the selection and selection args because the mCurrentPetUri
-            // content URI already identifies the pet that we want.
+            // Call the ContentResolver to delete the book listing at the given content URI.
+            // Pass in null for the selection and selection args because the mCurrentBookUri
+            // content URI already identifies the book listing that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentBookUri, null, null);
 
             // Show a toast message depending on whether or not the delete was successful.

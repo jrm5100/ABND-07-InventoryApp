@@ -1,35 +1,46 @@
 package com.example.android.inventoryapp;
 
 import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
-public class AddOrEditActivity extends AppCompatActivity {
+public class AddOrEditActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the pet data loader */
-    private static final int EXISTING_PET_LOADER = 0;
+    /** Identifier for the book data loader */
+    private static final int EXISTING_BOOK_LOADER = 0;
 
-    /** Content URI for the existing pet (null if it's a new pet) */
-    private Uri mCurrentPetUri;
+    /** Content URI for the existing book (null if it's a new book) */
+    private Uri mCurrentBookUri;
 
     //TODO: Update this to also handle editing
 
     // All fields as global vars
-    EditText mNameEditText;
-    EditText mPriceEditText;
-    EditText mQuantityEditText;
-    EditText mSupplierNameEditText;
-    EditText mSupplierPhoneEditText;
+    private EditText mNameEditText;
+    private EditText mPriceEditText;
+    private EditText mQuantityEditText;
+    private EditText mSupplierNameEditText;
+    private EditText mSupplierPhoneEditText;
 
     // boolan flag tracking if anything changed
     private boolean mBookHasChanged = false;
@@ -47,7 +58,19 @@ public class AddOrEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit);
-        setTitle(getString(R.string.title_add_new));
+
+        // Get the uri from intent data, if it exists
+        Intent intent = getIntent();
+        mCurrentBookUri = intent.getData();
+
+        if (mCurrentBookUri == null) {
+            // New Book
+            setTitle(getString(R.string.title_add_new));
+        } else {
+            // Edit Book
+            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
+            setTitle(getString(R.string.title_edit));
+        }
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.edit_book_name);
@@ -78,6 +101,18 @@ public class AddOrEditActivity extends AppCompatActivity {
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
 
+        // Don't do anything if it's a new book listing and nothing has been entered
+        if (mCurrentBookUri == null &&
+                TextUtils.isEmpty(nameString) &&
+                TextUtils.isEmpty(priceString) &&
+                TextUtils.isEmpty(quantityString) &&
+                TextUtils.isEmpty(supplierNameString) &&
+                TextUtils.isEmpty(supplierPhoneString)){
+            // Since no fields were modified, we can return early without creating a new book.
+            // No need to create ContentValues and no need to do any ContentProvider operations.
+            return;
+        }
+
         // Ensure required fields are modified
         if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(priceString) ||
                 TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierPhoneString)) {
@@ -102,22 +137,67 @@ public class AddOrEditActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_BOOK_SUPPLIERNAME, supplierNameString);
         values.put(BookEntry.COLUMN_BOOK_SUPPLIERPHONE, supplierPhoneString);
 
-        // Insert and get new Uri
-        Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
+        if (mCurrentBookUri == null) {
+            // Insert and get new Uri
+            Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
 
-        // Show a toast message depending on whether or not the insertion was successful.
-        if (newUri == null) {
-            // If the new content URI is null, then there was an error with insertion.
-            Toast.makeText(this, getString(R.string.editor_insert_book_failed),
-                    Toast.LENGTH_SHORT).show();
+            // Show a toast message depending on whether or not the insertion was successful.
+            if (newUri == null) {
+                // If the new content URI is null, then there was an error with insertion.
+                Toast.makeText(this, getString(R.string.editor_insert_book_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the insertion was successful and we can display a toast.
+                Toast.makeText(this, getString(R.string.editor_insert_book_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+
         } else {
-            // Otherwise, the insertion was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_insert_book_successful),
-                    Toast.LENGTH_SHORT).show();
+            // Exit existing book listing
+            int rowsAffected = getContentResolver().update(mCurrentBookUri, values, null, null);
+
+            // Show a toast message depending on whether or not the update was successful.
+            if (rowsAffected == 0) {
+                // If no rows were affected, then there was an error with the update.
+                Toast.makeText(this, getString(R.string.editor_update_book_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the update was successful and we can display a toast.
+                Toast.makeText(this, getString(R.string.editor_update_book_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
 
         // Close the activity
         finish();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Up" arrow button in the app bar
+            case android.R.id.home:
+                // If the book listing hasn't changed, continue with navigating up to parent activity
+                if (!mBookHasChanged) {
+                    NavUtils.navigateUpFromSameTask(AddOrEditActivity.this);
+                    return true;
+                }
+
+                // Otherwise if there are unsaved changes, setup a dialog to warn the user.
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // User clicked "Discard" button, navigate to parent activity.
+                                NavUtils.navigateUpFromSameTask(AddOrEditActivity.this);
+                            }
+                        };
+
+                // Show a dialog that notifies the user they have unsaved changes
+                showUnsavedChangesDialog(discardButtonClickListener);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -125,10 +205,10 @@ public class AddOrEditActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        // If the pet hasn't changed, continue with handling back button press
+        // If the book hasn't changed, continue with handling back button press
         if (!mBookHasChanged) {
-            super.onBackPressed();
-            return;
+            //Call finish to close the activity and return to the previous one
+            finish();
         }
 
         // Otherwise if there are unsaved changes, setup a dialog to warn the user.
@@ -137,6 +217,7 @@ public class AddOrEditActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // User clicked "Discard" button, close the current activity.
+                        // TODO: Make this work to return to the previous activity (DetailActivity)
                         finish();
                     }
                 };
@@ -155,7 +236,7 @@ public class AddOrEditActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the book listing.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -168,4 +249,70 @@ public class AddOrEditActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection that contains all columns from the table
+        String[] projection = {
+                BookEntry._ID,
+                BookEntry.COLUMN_BOOK_NAME,
+                BookEntry.COLUMN_BOOK_PRICE,
+                BookEntry.COLUMN_BOOK_QUANTITY,
+                BookEntry.COLUMN_BOOK_SUPPLIERNAME,
+                BookEntry.COLUMN_BOOK_SUPPLIERPHONE};
+
+        Log.v("TEST", mCurrentBookUri.toString());
+
+        // This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(
+                this,       // Parent activity context
+                mCurrentBookUri,   // Query the content URI for the current book
+                projection,        // Columns to include in the resulting Cursor
+                null,      // No selection clause
+                null,  // No selection arguments
+                null);    // Default sort order
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        // Bail early if the cursor is null or there is less than 1 row in the cursor
+        if (cursor == null || cursor.getCount() < 1) {
+            return;
+        }
+
+        // Proceed with moving to the first row of the cursor and reading data from it
+        // (This should be the only row in the cursor)
+        if (cursor.moveToFirst()) {
+            // Find the columns of attributes that we're interested in
+            int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
+            int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIERNAME);
+            int supplierPhoneColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIERPHONE);
+
+            // Extract out the value from the Cursor for the given column index
+            String name = cursor.getString(nameColumnIndex);
+            int price = cursor.getInt(priceColumnIndex);
+            int quantity = cursor.getInt(quantityColumnIndex);
+            String supplierName = cursor.getString(supplierNameColumnIndex);
+            String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
+
+            // Update the views with the values from the database
+            mNameEditText.setText(name);
+            mPriceEditText.setText(Integer.toString(price));
+            mQuantityEditText.setText(Integer.toString(quantity));
+            mSupplierNameEditText.setText(supplierName);
+            mSupplierPhoneEditText.setText(supplierPhone);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // Clear all the data
+        mNameEditText.setText("");
+        mPriceEditText.setText("");
+        mQuantityEditText.setText("");
+        mSupplierNameEditText.setText("");
+        mSupplierPhoneEditText.setText("");
+
+    }
 }

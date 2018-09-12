@@ -36,6 +36,8 @@
     <string name="editor_delete_book_successful">Success: deleted book listing</string>
     <string name="editor_insert_book_failed">Failure: unable to create book listing</string>
     <string name="editor_insert_book_successful">Success: created book listing</string>
+    <string name="editor_update_book_failed">Failure: unable to update book listing</string>
+    <string name="editor_update_book_successful">Success: updated book listing</string>
 
     <!-- Titles -->
     <string name="title_add_new">New Book Listing</string>
