@@ -133,7 +133,7 @@ public class DetailActivity extends AppCompatActivity implements
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(DetailActivity.this, EditActivity.class);
+                    Intent intent = new Intent(DetailActivity.this, AddOrEditActivity.class);
                     // Set Uri on the data field of the intent
                     intent.setData(mCurrentBookUri);
                     // Start the edit activity

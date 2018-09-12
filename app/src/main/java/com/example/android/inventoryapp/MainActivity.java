@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddNewActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddOrEditActivity.class);
                 startActivity(intent);
             }
         });

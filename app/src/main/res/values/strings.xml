@@ -17,19 +17,25 @@
     <string name="price_formatter">$%1$d</string>
     <string name="quantity_formatter">%1$d in stock</string>
 
-    <!-- Detail View -->
+    <!-- Dialog Messaged -->
     <string name="delete_dialog_text">Are you sure you want to delete this book listing?</string>
+    <string name="unsaved_changes_dialog_msg">Discard changes?</string>
 
-    <!-- Miscelaneous UI Text -->
+    <!-- Miscelaneous short words/phrases in UI -->
     <string name="overview">Overview</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
+    <string name="discard">Discard</string>
+    <string name="save">Save</string>
+    <string name="keep_editing">Keep Editing</string>
     <string name="sale">Sale</string>
 
-    <!-- Messages to the user -->
+    <!-- Toast Messages -->
     <string name="editor_delete_book_failed">Failure: unable to delete book listing</string>
     <string name="editor_delete_book_successful">Success: deleted book listing</string>
+    <string name="editor_insert_book_failed">Failure: unable to create book listing</string>
+    <string name="editor_insert_book_successful">Success: created book listing</string>
 
     <!-- Titles -->
     <string name="title_add_new">New Book Listing</string>
