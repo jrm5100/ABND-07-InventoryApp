@@ -75,6 +75,16 @@ public class BookCursorAdapter extends CursorAdapter {
                         ContentValues values = new ContentValues();
                         values.put(BookEntry.COLUMN_BOOK_QUANTITY, quantity - 1);
                         int rowsAffected = context.getContentResolver().update(currentBookUri, values, null, null);
+                        // Show a toast message depending on whether or not the update was successful.
+                        if (rowsAffected == 0) {
+                            // If no rows were affected, then there was an error with the update.
+                            Toast.makeText(context, context.getString(R.string.editor_update_quantity_failed),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Otherwise, the update was successful and we can display a toast.
+                            Toast.makeText(context, context.getString(R.string.editor_update_quantity_passed),
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
