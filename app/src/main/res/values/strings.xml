@@ -45,5 +45,8 @@
     <string name="title_add_new">New Book Listing</string>
     <string name="title_edit">Edit Book Listing</string>
     <string name="zero">0</string>
+    <string name="modify">Modify</string>
+    <string name="supplier">Supplier</string>
+    <string name="quantity">Quantity</string>
 
 </resources>

@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Testing code:
         //deleteAllBooks();
         //insertData("Book One", 20, 5, "Books R Us", "1-800-867-5309");
         //insertData("Book Two", 20, 12, "Books R Us", "1-800-867-5309");
