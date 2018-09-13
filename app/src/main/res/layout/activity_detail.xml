@@ -17,7 +17,7 @@
         <!-- Label -->
         <TextView
             android:text="@string/overview"
-            style="@style/CategoryStyle" />
+            style="@style/LabelStyle" />
 
         <!-- Input fields -->
         <LinearLayout
