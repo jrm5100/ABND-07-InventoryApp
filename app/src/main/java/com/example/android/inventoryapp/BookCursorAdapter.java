@@ -64,6 +64,7 @@ public class BookCursorAdapter extends CursorAdapter {
     private void setupDecreaseQuantButton(final Button btn, final Integer quantity, final Uri currentBookUri, final Context context) {
         if (quantity >= 1) {
             btn.setEnabled(true);
+            btn.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,6 +87,7 @@ public class BookCursorAdapter extends CursorAdapter {
             });
         } else {
             btn.setEnabled(false);
+            btn.setBackgroundColor(context.getResources().getColor(R.color.gray));
             btn.setOnClickListener(null);
         }
     }
