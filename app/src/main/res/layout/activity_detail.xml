@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
+    tools:context=".DetailActivity">
+
+    <!-- Overview category -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
+
+        <!-- Book Name field -->
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/book_name"
+            android:layout_alignParentLeft="true"
+            android:textSize="32sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/dark_gray" />
+
+        <!-- Price field -->
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/price"
+            android:layout_alignParentRight="true"
+            android:textSize="28sp"
+            android:gravity="center_vertical"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/dark_gray"
+            android:textStyle="italic"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:text="@string/quantity"
+        style="@style/detail_category" />
+
+    <!-- Quantity field -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="-"
+            android:onClick="decreaseQuantity"
+            android:layout_margin="8dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="28sp"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="+"
+            android:onClick="increaseQuantity"
+            android:layout_margin="8dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+    <!-- Supplier Info -->
+
+    <TextView
+        android:text="@string/supplier"
+        style="@style/detail_category" />
+
+    <TextView
+        android:id="@+id/supplier_name"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="28sp"
+        android:fontFamily="sans-serif-medium"
+        android:textAlignment="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/phone_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimaryDark"
+            android:tint="@android:color/white"
+            android:src="@drawable/ic_local_phone" />
+
+        <TextView
+            android:id="@+id/supplier_phone"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"/>
+
+
+
+    </LinearLayout>
+
+    <!-- Edit and Delete Buttons -->
+    <TextView
+        android:text="@string/modify"
+        style="@style/detail_category" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:text="@string/edit"
+            android:background="@android:color/holo_orange_dark"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:text="@string/delete"
+            android:onClick="deleteBookListingOnClick"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,4 +1,52 @@
 <resources>
     <string name="app_name">InventoryApp</string>
-    <string name="book_count">The books table contains %d books.\n</string>
+
+    <!-- New/Edit labels -->
+    <string name="required">Required</string>
+    <string name="edit_book_name">Book Name</string>
+    <string name="edit_price">Book Price (USD)</string>
+    <string name="edit_quantity">Quantity</string>
+    <string name="edit_supplier_name">Supplier Name</string>
+    <string name="edit_supplier_phone">Supplier Phone Number</string>
+
+    <!-- Main View -->
+    <string name="empty_view_title_text">Can\'t you check in the back for more inventory?</string>
+    <string name="empty_view_subtitle_text">Get started by adding a book listing</string>
+
+    <string name="price_formatter">$%1$d</string>
+    <string name="quantity_formatter">%1$d in stock</string>
+
+    <!-- Dialog Messaged -->
+    <string name="delete_dialog_text">Are you sure you want to delete this book listing?</string>
+    <string name="unsaved_changes_dialog_msg">Discard changes?</string>
+
+    <!-- Miscelaneous short words/phrases in UI -->
+    <string name="overview">Overview</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="discard">Discard</string>
+    <string name="save">Save</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="sale">Sale</string>
+
+    <!-- Toast Messages -->
+    <string name="editor_update_quantity_failed">Failed to update the quantity.</string>
+    <string name="editor_update_quantity_passed">Updated the quantity.</string>
+    <string name="editor_delete_book_failed">Failure: unable to delete book listing</string>
+    <string name="editor_delete_book_successful">Success: deleted book listing</string>
+    <string name="editor_insert_book_failed">Failure: unable to create book listing</string>
+    <string name="editor_insert_book_successful">Success: created book listing</string>
+    <string name="editor_update_book_failed">Failure: unable to update book listing</string>
+    <string name="editor_update_book_successful">Success: updated book listing</string>
+    <string name="editor_add_more_data">Fill out Required Fields</string>
+
+    <!-- Titles -->
+    <string name="title_add_new">New Book Listing</string>
+    <string name="title_edit">Edit Book Listing</string>
+    <string name="zero">0</string>
+    <string name="modify">Modify</string>
+    <string name="supplier">Supplier</string>
+    <string name="quantity">Quantity</string>
+
 </resources>

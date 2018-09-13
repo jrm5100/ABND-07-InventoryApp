@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
+    tools:context=".AddOrEditActivity"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <!-- Book Name field -->
+    <TextView
+        android:id="@+id/edit_book_name_label"
+        android:text="@string/edit_book_name"
+        style="@style/LabelStyle"/>
+
+    <EditText
+        android:id="@+id/edit_book_name"
+        android:hint="@string/required"
+        android:inputType="textCapWords"
+        style="@style/EditorFieldStyle" />
+
+
+    <!-- Price field -->
+    <TextView
+        android:id="@+id/edit_price_label"
+        android:text="@string/edit_price"
+        style="@style/LabelStyle"/>
+
+    <EditText
+        android:id="@+id/edit_price"
+        android:hint="@string/required"
+        android:singleLine="true"
+        android:inputType="number"
+        android:maxLength="3"
+        style="@style/EditorFieldStyle" />
+
+    <!-- Quantity field -->
+    <TextView
+        android:id="@+id/edit_quantity_label"
+        android:text="@string/edit_quantity"
+        style="@style/LabelStyle"/>
+
+    <EditText
+        android:id="@+id/edit_quantity"
+        android:text="@string/zero"
+        android:singleLine="true"
+        android:inputType="number"
+        android:maxLength="5"
+        style="@style/EditorFieldStyle" />
+
+    <!-- Supplier Name field -->
+    <TextView
+        android:id="@+id/edit_supplier_name_label"
+        android:text="@string/edit_supplier_name"
+        style="@style/LabelStyle"/>
+
+    <EditText
+        android:id="@+id/edit_supplier_name"
+        android:hint="@string/required"
+        android:inputType="textCapWords"
+        style="@style/EditorFieldStyle" />
+
+    <!-- Supplier Phone field -->
+    <TextView
+        android:id="@+id/edit_supplier_phone_label"
+        android:text="@string/edit_supplier_phone"
+        style="@style/LabelStyle"/>
+
+    <EditText
+        android:id="@+id/edit_supplier_phone"
+        android:hint="@string/required"
+        android:inputType="phone"
+        style="@style/EditorFieldStyle" />
+
+</LinearLayout>
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common margin value used throughout the app -->
+    <dimen name="activity_margin">16dp</dimen>
+    <!-- Height of the add or edit label/EditText rows -->
+    <dimen name="add_or_edit_height">64dp</dimen>
+</resources>
