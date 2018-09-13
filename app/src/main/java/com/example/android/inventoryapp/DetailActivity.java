@@ -34,6 +34,7 @@ public class DetailActivity extends AppCompatActivity implements
     TextView mPriceText;
     TextView mQuantityText;
     TextView mSupplierNameText;
+    TextView mSupplierPhoneText;
     ImageButton phoneButton;
 
     /** Actual data values */
@@ -110,12 +111,14 @@ public class DetailActivity extends AppCompatActivity implements
             mPriceText = (TextView) findViewById(R.id.price);
             mQuantityText = (TextView) findViewById(R.id.quantity);
             mSupplierNameText = (TextView) findViewById(R.id.supplier_name);
+            mSupplierPhoneText = (TextView) findViewById(R.id.supplier_phone);
 
             // Update the views with the values from the database
             mNameText.setText(name);
             mPriceText.setText(getString(R.string.price_formatter, price));
             mQuantityText.setText(getString(R.string.quantity_formatter, quantity));
             mSupplierNameText.setText(supplierName);
+            mSupplierPhoneText.setText(supplierPhone);
 
             // Set an intent on the phone button
             phoneButton = findViewById(R.id.phone_button);
@@ -149,7 +152,9 @@ public class DetailActivity extends AppCompatActivity implements
         mNameText.setText("");
         mPriceText.setText("");
         mQuantityText.setText("");
-        mSupplierNameText.setOnClickListener(null); // Remove onClickListener
+        mSupplierPhoneText.setText("");
+        mSupplierNameText.setText("");
+        phoneButton.setOnClickListener(null); // Remove onClickListener
     }
 
 
