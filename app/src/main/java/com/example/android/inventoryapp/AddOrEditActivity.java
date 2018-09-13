@@ -14,12 +14,11 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
@@ -32,8 +31,6 @@ public class AddOrEditActivity extends AppCompatActivity implements
 
     /** Content URI for the existing book (null if it's a new book) */
     private Uri mCurrentBookUri;
-
-    //TODO: Update this to also handle editing
 
     // All fields as global vars
     private EditText mNameEditText;
@@ -89,10 +86,22 @@ public class AddOrEditActivity extends AppCompatActivity implements
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
     }
 
+    // Add the menu options
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_editor.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_add_or_edit, menu);
+        return true;
+    }
+
+
+
     /**
      * Get user input from the editor and save the book listing into database.
+     * Return true if successful, meaning the activity can be closed. Otherwise false.
      */
-    public void saveBook(View view) {
+    public boolean saveBook() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
@@ -108,16 +117,17 @@ public class AddOrEditActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(quantityString) &&
                 TextUtils.isEmpty(supplierNameString) &&
                 TextUtils.isEmpty(supplierPhoneString)){
-            // Since no fields were modified, we can return early without creating a new book.
-            // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
+            // Since no fields were modified, we can return early without creating a dialog
+            return false;
         }
 
         // Ensure required fields are modified
         if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(priceString) ||
                 TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierPhoneString)) {
             // Need data for all of these fields
-            return;
+            Toast.makeText(this, getString(R.string.editor_add_more_data),
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         // Can safely parse price now
@@ -146,10 +156,12 @@ public class AddOrEditActivity extends AppCompatActivity implements
                 // If the new content URI is null, then there was an error with insertion.
                 Toast.makeText(this, getString(R.string.editor_insert_book_failed),
                         Toast.LENGTH_SHORT).show();
+                return false;
             } else {
                 // Otherwise, the insertion was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_insert_book_successful),
                         Toast.LENGTH_SHORT).show();
+                return true;
             }
 
         } else {
@@ -161,29 +173,41 @@ public class AddOrEditActivity extends AppCompatActivity implements
                 // If no rows were affected, then there was an error with the update.
                 Toast.makeText(this, getString(R.string.editor_update_book_failed),
                         Toast.LENGTH_SHORT).show();
+                return false;
             } else {
                 // Otherwise, the update was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_update_book_successful),
                         Toast.LENGTH_SHORT).show();
+                return true;
             }
         }
-
-        // Close the activity
-        finish();
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
+            // Respond to a click on the "Save" menu option
+            case R.id.action_save:
+                // Save book listing to database
+                boolean saveSuccess = saveBook();
+                if (saveSuccess){
+                    finish();
+                }
+                return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                // If the book listing hasn't changed, continue with navigating up to parent activity
+                Log.v("home", String.valueOf(mBookHasChanged));
+                // If the book hasn't changed, continue with navigating up to parent activity
+                // which is the {@link CatalogActivity}.
                 if (!mBookHasChanged) {
                     NavUtils.navigateUpFromSameTask(AddOrEditActivity.this);
                     return true;
                 }
 
                 // Otherwise if there are unsaved changes, setup a dialog to warn the user.
+                // Create a click listener to handle the user confirming that
+                // changes should be discarded.
                 DialogInterface.OnClickListener discardButtonClickListener =
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -205,25 +229,24 @@ public class AddOrEditActivity extends AppCompatActivity implements
      */
     @Override
     public void onBackPressed() {
+        Log.v("OnBackPressed", String.valueOf(mBookHasChanged));
         // If the book hasn't changed, continue with handling back button press
         if (!mBookHasChanged) {
-            //Call finish to close the activity and return to the previous one
-            finish();
+            // Don't do anything differently if there are no changes
+            super.onBackPressed();
+        } else {
+            // Otherwise if there are unsaved changes, setup a dialog to warn the user.
+            DialogInterface.OnClickListener discardButtonClickListener =
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User clicked "Discard" button, close the current activity.
+                            NavUtils.navigateUpFromSameTask(AddOrEditActivity.this);
+                        }
+                    };
+            // Show dialog that there are unsaved changes
+            showUnsavedChangesDialog(discardButtonClickListener);
         }
-
-        // Otherwise if there are unsaved changes, setup a dialog to warn the user.
-        DialogInterface.OnClickListener discardButtonClickListener =
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // User clicked "Discard" button, close the current activity.
-                        // TODO: Make this work to return to the previous activity (DetailActivity)
-                        finish();
-                    }
-                };
-
-        // Show dialog that there are unsaved changes
-        showUnsavedChangesDialog(discardButtonClickListener);
     }
 
     private void showUnsavedChangesDialog(

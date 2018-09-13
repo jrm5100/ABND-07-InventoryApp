@@ -4,8 +4,4 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorPrimaryEditor">#FFF44336</color>
-    <color name="colorPrimaryDarkEditor">#b71c1c</color>
-    <color name="colorAccentEditor">#616161</color>
-
 </resources>

@@ -8,14 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- Edit theme with bright "Caution" colors. -->
-    <style name="EditTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimaryEditor</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <!-- Style for a category in the editor -->
     <style name="CategoryStyle">
         <item name="android:layout_height">wrap_content</item>

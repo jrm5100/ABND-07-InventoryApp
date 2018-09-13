@@ -6,18 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_margin"
-    tools:context=".AddOrEditActivity">
+    tools:context=".AddOrEditActivity"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <!-- Overview category -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:text="@string/overview"
-            style="@style/CategoryStyle" />
 
         <!-- Input fields -->
         <LinearLayout
@@ -28,52 +26,131 @@
             android:orientation="vertical">
 
             <!-- Book Name field -->
-            <EditText
-                android:id="@+id/edit_book_name"
-                android:hint="@string/hint_edit_book_name"
-                android:inputType="textCapWords"
-                style="@style/EditorFieldStyle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/edit_book_name_label"
+                    android:text="@string/edit_book_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStyle"/>
+
+                <EditText
+                    android:id="@+id/edit_book_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:hint="@string/required"
+                    android:inputType="textCapWords"
+                    style="@style/EditorFieldStyle" />
+
+            </LinearLayout>
 
             <!-- Price field -->
-            <EditText
-                android:id="@+id/edit_price"
-                android:hint="@string/hint_edit_price"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="number"
-                android:maxLength="3"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/edit_price_label"
+                    android:text="@string/edit_price"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStyle"/>
+
+                <EditText
+                    android:id="@+id/edit_price"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:hint="@string/required"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    style="@style/EditorFieldStyle" />
+
+            </LinearLayout>
+
 
             <!-- Quantity field -->
-            <EditText
-                android:id="@+id/edit_quantity"
-                android:hint="@string/hint_edit_quantity"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="number"
-                android:maxLength="5"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/edit_quantity_label"
+                    android:text="@string/edit_quantity"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStyle"/>
+
+                <EditText
+                    android:id="@+id/edit_quantity"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="@string/zero"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    style="@style/EditorFieldStyle" />
+
+            </LinearLayout>
 
             <!-- Supplier Name field -->
-            <EditText
-                android:id="@+id/edit_supplier_name"
-                android:hint="@string/hint_edit_supplier_name"
-                android:inputType="textCapWords"
-                style="@style/EditorFieldStyle" />
-
-            <!-- Supplier Phone field -->
-            <EditText
-                android:id="@+id/edit_supplier_phone"
-                android:hint="@string/hint_edit_supplier_phone"
-                android:inputType="phone"
-                style="@style/EditorFieldStyle" />
-
-            <Button
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/save"
-                android:onClick="saveBook"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/edit_supplier_name_label"
+                    android:text="@string/edit_supplier_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStyle"/>
+
+                <EditText
+                    android:id="@+id/edit_supplier_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:hint="@string/required"
+                    android:inputType="textCapWords"
+                    style="@style/EditorFieldStyle" />
+
+            </LinearLayout>
+
+
+
+            <!-- Supplier Phone field -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/edit_supplier_phone_label"
+                    android:text="@string/edit_supplier_phone"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStyle"/>
+
+                <EditText
+                    android:id="@+id/edit_supplier_phone"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:hint="@string/required"
+                    android:inputType="phone"
+                    style="@style/EditorFieldStyle" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
